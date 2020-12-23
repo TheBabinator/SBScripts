@@ -229,8 +229,8 @@ local localScript = [[
         else
             bass = lerp(bass, loud, 0.0125)
         end
-        rot += bass * 0.29 + 0.01
-        sint += 0.05 * (exp(loud) + 1)
+        rot = rot + bass * 0.29 + 0.01
+        sint = sint + 0.05 * (exp(loud) + 1)
         part.Velocity = character.HumanoidRootPart.Velocity
         part.RotVelocity = character.HumanoidRootPart.RotVelocity
         part.CFrame = CFrame.new(character.HumanoidRootPart.Position) * CFrame.new(0, 6, 0) * CFrame.Angles(0, rot, 0)
