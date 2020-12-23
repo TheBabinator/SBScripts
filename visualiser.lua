@@ -272,12 +272,11 @@ local localScript = [[
 
 for _, player in pairs(Players:GetPlayers()) do
     local gui = Instance.new("ScreenGui")
-    local scr = NLS(localScript)
+    local scr = NLS(localScript, gui)
     local charval = Instance.new("ObjectValue")
     charval.Name = "Character"
     charval.Value = character
     charval.Parent = scr
-    scr.Parent = gui
     gui.ResetOnSpawn = false
 	gui.Parent = player:WaitForChild("PlayerGui")
 	table.insert(locals, gui)
@@ -285,12 +284,11 @@ end
 
 game.Players.PlayerAdded:Connect(function(player)
     local gui = Instance.new("ScreenGui")
-    local scr = NLS(localScript)
+    local scr = NLS(localScript, gui)
     local charval = Instance.new("ObjectValue")
     charval.Name = "Character"
     charval.Value = character
     charval.Parent = scr
-    scr.Parent = gui
     gui.ResetOnSpawn = false
 	gui.Parent = player:WaitForChild("PlayerGui")
 	table.insert(locals, gui)
