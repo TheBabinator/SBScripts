@@ -137,7 +137,6 @@ local localScript = [[
     local barcount = 16
     
     local part = Instance.new("Part")
-    --part.Anchored = true
     part.CanCollide = false
     part.CastShadow = false
     part.Material = Enum.Material.Neon
