@@ -129,61 +129,67 @@ end)
 
 
 local function onPlayer(player)
-    if player == Players.LocalPlayer then return end
+	if player == Players.LocalPlayer then return end
 
-    local billboard = Instance.new("BillboardGui")
-    billboard.ClipsDescendants = false
-    billboard.StudsOffsetWorldSpace = Vector3.new(0, 2, 0)
-    billboard.Size = UDim2.new(1, 0, 0.5, 0)
-    billboard.Parent = PlayerGui
+	local billboard = Instance.new("BillboardGui")
+	billboard.ResetOnSpawn = false
+	billboard.ClipsDescendants = false
+	billboard.StudsOffsetWorldSpace = Vector3.new(0, 2, 0)
+	billboard.Size = UDim2.new(0, 0, 0, 25)
+	billboard.MaxDistance = 42
+	billboard.Parent = PlayerGui
 
-    billboard.Adornee = player.Character:FindFirstChild("Head")
-    player.CharacterAdded:Connect(function(character)
-        billboard.Adornee = character:WaitForChild("Head")
-    end)
+	billboard.Adornee = player.Character:FindFirstChild("Head")
+	player.CharacterAdded:Connect(function(character)
+		billboard.Adornee = character:WaitForChild("Head")
+	end)
 
-    local messages = {}
+	local messages = {}
 
-    player.Chatted:Connect(function(message)
-        local frame = Instance.new("Frame")
-        frame.BorderSizePixel = 0
-        frame.Visible = false
-        local corner = Instance.new("UICorner")
-        corner.CornerRadius = UDim.new(0, 5)
-        corner.Parent = frame
-        local text = Instance.new("TextLabel")
-        text.BackgroundTransparency = 1
-        text.Font = Enum.Font.SourceSansBold
-        text.TextScaled = true
-        text.Text = message
-        text.Size = UDim2.new(1, 0, 1, 0)
-        text.Parent = frame
-        frame.AnchorPoint = Vector2.new(0.5, 0)
-        frame.Position = UDim2.new(0.5, 0, 0, 0)
-        frame.Size = UDim2.new(1, 0, 1, 0)
-        frame.Parent = billboard
-        for i, frame in pairs(messages) do
-            TweenService:Create(
-                frame,
-                TweenInfo.new(0.1),
-                {
-                    Position = UDim2.new(0.5, 0, i, i * 5);
-                }
-            ):Play()
-        end
-        wait()
-        if messages[4] then
-            messages[4]:Destroy()
-            messages[4] = nil
-        end
-        table.insert(messages, 1, frame)
-        frame.Size = UDim2.new(0, text.TextBounds.X, 1, 0)
-        frame.Visible = true
-    end)
+	player.Chatted:Connect(function(message)
+		local frame = Instance.new("Frame")
+		frame.BorderSizePixel = 0
+		frame.Visible = false
+		local corner = Instance.new("UICorner")
+		corner.CornerRadius = UDim.new(0, 5)
+		corner.Parent = frame
+		local text = Instance.new("TextLabel")
+		text.BackgroundTransparency = 1
+		text.Font = Enum.Font.SourceSansBold
+		text.TextSize = 20
+		text.Text = message
+		text.Size = UDim2.new(1, 0, 1, 0)
+		text.Parent = frame
+		frame.AnchorPoint = Vector2.new(0.5, 0)
+		frame.Position = UDim2.new(0.5, 0, 0, 0)
+		frame.Size = UDim2.new(1, 0, 1, 0)
+		frame.Parent = billboard
+		for i, frame in pairs(messages) do
+			TweenService:Create(
+				frame,
+				TweenInfo.new(0.1),
+				{
+					Position = UDim2.new(0.5, 0, -i, -i * 5);
+				}
+			):Play()
+		end
+		wait()
+		if messages[4] then
+			messages[4]:Destroy()
+			messages[4] = nil
+		end
+		table.insert(messages, 1, frame)
+		frame.Size = UDim2.new(0, text.TextBounds.X + 10, 1, 0)
+		frame.Visible = true
+		spawn(function()
+			wait(5)
+			frame.Visible = false
+		end)
+	end)
 end
 
 Players.PlayerAdded:Connect(onPlayer)
 for _, player in pairs(Players:GetPlayers()) do
-    onPlayer(player)
+	onPlayer(player)
 end
 ]], character)
