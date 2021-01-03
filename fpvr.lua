@@ -137,6 +137,7 @@ local function onPlayer(player)
 	billboard.StudsOffsetWorldSpace = Vector3.new(0, 2, 0)
 	billboard.Size = UDim2.new(0, 0, 0, 25)
 	billboard.MaxDistance = 42
+	billboard.LightInfluence = 0
 	billboard.Parent = PlayerGui
 
 	local messages = {}
