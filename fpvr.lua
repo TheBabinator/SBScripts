@@ -149,7 +149,7 @@ local function onPlayer(player)
         frame.BorderSizePixel = 0
         frame.Visible = false
         local corner = Instance.new("UICorner")
-        corner.CornerRadius = UDim2.new(0, 5)
+        corner.CornerRadius = UDim.new(0, 5)
         corner.Parent = frame
         local text = Instance.new("TextLabel")
         text.BackgroundTransparency = 1
