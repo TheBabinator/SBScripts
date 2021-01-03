@@ -139,14 +139,13 @@ local function onPlayer(player)
 	billboard.MaxDistance = 42
 	billboard.Parent = PlayerGui
 
-	billboard.Adornee = player.Character:FindFirstChild("Head")
-	player.CharacterAdded:Connect(function(character)
-		billboard.Adornee = character:WaitForChild("Head")
-	end)
-
 	local messages = {}
 
 	player.Chatted:Connect(function(message)
+		if player.Character then
+			billboard.Adornee = player.Character:FindFirstChild("Head")
+		end
+		
 		local frame = Instance.new("Frame")
 		frame.BorderSizePixel = 0
 		frame.Visible = false
