@@ -120,4 +120,4 @@ UserInputService.InputChanged:Connect(function(input, gameProcessed)
 		thumbstick2 = input.Position
 	end
 end)
-]]], character)
+]], character)
