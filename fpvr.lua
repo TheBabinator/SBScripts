@@ -134,7 +134,7 @@ local function onPlayer(player)
     local billboard = Instance.new("BillboardGui")
     billboard.ClipsDescendants = false
     billboard.StudsOffsetWorldSpace = Vector3.new(0, 2, 0)
-    billboard.Size = Udim2.new(1, 0, 0.5, 0)
+    billboard.Size = UDim2.new(1, 0, 0.5, 0)
     billboard.Parent = PlayerGui
 
     billboard.Adornee = player.Character:FindFirstChild("Head")
@@ -149,25 +149,25 @@ local function onPlayer(player)
         frame.BorderSizePixel = 0
         frame.Visible = false
         local corner = Instance.new("UICorner")
-        corner.CornerRadius = Udim2.new(0, 5)
+        corner.CornerRadius = UDim2.new(0, 5)
         corner.Parent = frame
         local text = Instance.new("TextLabel")
         text.BackgroundTransparency = 1
         text.Font = Enum.Font.SourceSansBold
         text.TextScaled = true
         text.Text = message
-        text.Size = Udim2.new(1, 0, 1, 0)
+        text.Size = UDim2.new(1, 0, 1, 0)
         text.Parent = frame
         frame.AnchorPoint = Vector2.new(0.5, 0)
-        frame.Position = Udim2.new(0.5, 0, 0, 0)
-        frame.Size = Udim2.new(1, 0, 1, 0)
+        frame.Position = UDim2.new(0.5, 0, 0, 0)
+        frame.Size = UDim2.new(1, 0, 1, 0)
         frame.Parent = billboard
         for i, frame in pairs(messages) do
             TweenService:Create(
                 frame,
                 TweenInfo.new(0.1),
                 {
-                    Position = Udim2.new(0.5, 0, i, i * 5);
+                    Position = UDim2.new(0.5, 0, i, i * 5);
                 }
             ):Play()
         end
@@ -177,7 +177,7 @@ local function onPlayer(player)
             messages[4] = nil
         end
         table.insert(messages, 1, frame)
-        frame.Size = Udim2.new(0, text.TextBounds.X, 1, 0)
+        frame.Size = UDim2.new(0, text.TextBounds.X, 1, 0)
         frame.Visible = true
     end)
 end
