@@ -51,9 +51,14 @@ NLS([[
 local VRService = game:GetService("VRService")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local PlayerGui = Players.LocalPlayer:FindFirstChildOfClass("PlayerGui")
 local StarterGui = game:GetService("StarterGui")
 --StarterGui:SetCore("VRLaserPointerMode", 0)
 --StarterGui:SetCore("VREnableControllerModels", false)
+
+
 
 local character = script.Parent
 local VRSpin = 0
@@ -120,4 +125,65 @@ UserInputService.InputChanged:Connect(function(input, gameProcessed)
 		thumbstick2 = input.Position
 	end
 end)
+
+
+
+local function onPlayer(player)
+    if player == Players.LocalPlayer then return end
+
+    local billboard = Instance.new("BillboardGui")
+    billboard.ClipsDescendants = false
+    billboard.StudsOffsetWorldSpace = Vector3.new(0, 2, 0)
+    billboard.Size = Udim2.new(1, 0, 0.5, 0)
+    billboard.Parent = PlayerGui
+
+    billboard.Adornee = player.Character:FindFirstChild("Head")
+    player.CharacterAdded:Connect(function(character)
+        billboard.Adornee = character:WaitForChild("Head")
+    end)
+
+    local messages = {}
+
+    player.Chatted:Connect(function(message)
+        local frame = Instance.new("Frame")
+        frame.BorderSizePixel = 0
+        frame.Visible = false
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = Udim2.new(0, 5)
+        corner.Parent = frame
+        local text = Instance.new("TextLabel")
+        text.BackgroundTransparency = 1
+        text.Font = Enum.Font.SourceSansBold
+        text.TextScaled = true
+        text.Text = message
+        text.Size = Udim2.new(1, 0, 1, 0)
+        text.Parent = frame
+        frame.AnchorPoint = Vector2.new(0.5, 0)
+        frame.Position = Udim2.new(0.5, 0, 0, 0)
+        frame.Size = Udim2.new(1, 0, 1, 0)
+        frame.Parent = billboard
+        for i, frame in pairs(messages) do
+            TweenService:Create(
+                frame,
+                TweenInfo.new(0.1),
+                {
+                    Position = Udim2.new(0.5, 0, i, i * 5);
+                }
+            ):Play()
+        end
+        wait()
+        if messages[4] then
+            messages[4]:Destroy()
+            messages[4] = nil
+        end
+        table.insert(messages, 1, frame)
+        frame.Size = Udim2.new(0, text.TextBounds.X, 1, 0)
+        frame.Visible = true
+    end)
+end
+
+Players.PlayerAdded:Connect(onPlayer)
+for _, player in pairs(Players:GetPlayers()) do
+    onPlayer(player)
+end
 ]], character)
