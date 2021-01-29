@@ -22,6 +22,13 @@ local function exp(a, bias)
 	return ((bias ^ a) - 1) / (bias - 1)
 end
 
+local function grad(x, func, d)
+	d = d or 0.001
+	local a = func(x)
+	local b = func(x + d)
+	return (b - a) / d
+end
+
 local function lerp(a, b, alpha)
     return a + (b - a) * alpha
 end
@@ -64,7 +71,7 @@ local worm = {
         BackgroundTransparency = 1;
         AnchorPoint = Vector2.new(0, 1);
         Position = UDim2.new(0, -500, 0.4, 0);
-        Size = UDim2.new(0, 300, 0, 40);
+        Size = UDim2.new(0, 300, 0, 45);
         Parent = GUI;
     });
     length = 400;
@@ -117,7 +124,7 @@ for x = 0, worm.length - 1 do
         Parent = worm.frame;
     })
     local newBack = instance("Frame", {
-        ZIndex = 9;
+        ZIndex = 8;
         BorderSizePixel = 0;
         BackgroundColor3 = Color3.new(0.1, 0.1, 0.1);
         Position = UDim2.new(0, 0, 0, -5);
@@ -127,6 +134,44 @@ for x = 0, worm.length - 1 do
     worm.segments[x] = new
     worm.segmentsBack[x] = newBack
 end
+
+worm.head = instance("ImageLabel", {
+    ZIndex = 9;
+    Image = "rbxassetid://6092002256";
+    BackgroundTransparency = 1;
+    AnchorPoint = Vector2.new(0.5, 0);
+    Position = UDim2.new(0, 0, 0, 0);
+    Size = UDim2.new(0, 150, 1, 0);
+    Parent = worm.segments[worm.length - 1];
+})
+
+worm.back = instance("ImageLabel", {
+    ZIndex = 8;
+    Image = "rbxassetid://6092002256";
+    BackgroundTransparency = 1;
+    Position = UDim2.new(0, -5, 0, -5);
+    Size = UDim2.new(1, 10, 1, 10);
+    Parent = worm.head;
+})
+
+worm.top = instance("ImageLabel", {
+    ZIndex = 9;
+    Image = "rbxassetid://6092325605";
+    BackgroundTransparency = 1;
+    AnchorPoint = Vector2.new(1, 1);
+    Position = UDim2.new(1, -20, 0, 5);
+    Size = UDim2.new(0, 50, 0, 25);
+    Parent = worm.head;
+})
+
+worm.eyes = instance("ImageLabel", {
+    ZIndex = 9;
+    Image = "rbxassetid://6092325147";
+    BackgroundTransparency = 1;
+    Position = UDim2.new(0, 0, 0, 0);
+    Size = UDim2.new(1, 0, 1, 0);
+    Parent = worm.top;
+})
 
 local guiBeatFrame = instance("Frame", { BackgroundTransparency = 1; AnchorPoint = Vector2.new(0.5, 0.5); Position = UDim2.new(0.5, 0, 0.5, 0); Size = UDim2.new(1, -32, 1, -32); Parent = GUI; })
 instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = UDim2.new(0, 0, 0, 0); Size = UDim2.new(1, 0, 0, 8); Parent = guiBeatFrame; })
@@ -273,17 +318,23 @@ RunService.RenderStepped:Connect(function(delta)
     if rythm.combo < 2 then
         if worm.visible then
             worm.visible = false
+            worm.text.Visible = false
             worm.frame.Position = UDim2.new(0, lerp(worm.frame.Position.X.Offset, -worm.length, 0.01), 0.4, 0)
         end
     else
         if not worm.visible then
             worm.visible = true
+            worm.text.Visible = true
         end
         if rythm.fever < 0.5 then
             worm.text.Text = rythm.combo
-            worm.text.TextColor3 = Color3.new(1, 0, 0)
-            worm.text.TextXAlignment = Enum.TextXAlignment.Right
             worm.subtext.Text = "COMBO!"
+            worm.subtext.TextColor3 = Color3.new(1, 1, 1)
+            worm.subtext.TextXAlignment = Enum.TextXAlignment.Left
+            worm.subtext.TextSize = 24
+            worm.head.ImageColor3 = Color3.new(0.1, 0.1, 0.1)
+            worm.top.ImageColor3 = worm.head.ImageColor3
+            worm.back.ImageColor3 = worm.head.ImageColor3
             worm.frame.Position = UDim2.new(0, lerp(worm.frame.Position.X.Offset, -worm.length + exp(rythm.fever, 0.01) * 250, 0.1), 0.4, 0)
             worm.scale.Scale = 1
             for x, segment in pairs(worm.segments) do
@@ -296,16 +347,21 @@ RunService.RenderStepped:Connect(function(delta)
             for x, segment in pairs(worm.segmentsBack) do
                 segment.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
             end
+            worm.head.Rotation = 0
         elseif rythm.fever < 1 then
             worm.text.Text = rythm.combo
-            worm.text.TextColor3 = Color3.new(1, 0, 0)
-            worm.text.TextXAlignment = Enum.TextXAlignment.Right
             worm.subtext.Text = "COMBO!"
+            worm.subtext.TextColor3 = Color3.new(1, 1, 1)
+            worm.subtext.TextXAlignment = Enum.TextXAlignment.Left
+            worm.subtext.TextSize = 24
+            worm.head.ImageColor3 = Color3.new(0.1, 0.1, 0.1)
+            worm.top.ImageColor3 = worm.head.ImageColor3
+            worm.back.ImageColor3 = worm.head.ImageColor3
             worm.frame.Position = UDim2.new(0, lerp(worm.frame.Position.X.Offset, -worm.length + exp(rythm.fever, 0.01) * 300, 0.1), 0.4, 0)
             worm.scale.Scale = 1
             for x, segment in pairs(worm.segments) do
                 local y1 = -lerp(0, math.sin(x / worm.length * 6 * tau) * 5 + 5, math.abs(math.sin(rythm.rawBeat * 0.5 * tau)))
-                local y2 = math.sin(rythm.rawBeat * tau) * 40
+                local y2 = math.sin((rythm.rawBeat + x / worm.length) * tau) * 40
                 local y = lerp(y1, y2, exp(x / worm.length, 400))
                 segment.Position = UDim2.new(0, x, 0, y)
                 segment.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
@@ -313,11 +369,21 @@ RunService.RenderStepped:Connect(function(delta)
             for x, segment in pairs(worm.segmentsBack) do
                 segment.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
             end
+            local gradient = grad(1, function(x)
+                local y = math.sin((rythm.rawBeat + x / worm.length) * tau) * 40
+                return y
+			end)
+			local angle = math.deg(math.atan(gradient))
+            worm.head.Rotation = angle
         else
-            worm.text.Text = "FEVER!"
-            worm.text.TextColor3 = Color3.new(1, 0.5, 0):Lerp(Color3.new(1, 0.3, 0), rythm.rawBeat % 1)
-            worm.text.TextXAlignment = Enum.TextXAlignment.Left
-            worm.subtext.Text = ""
+            worm.text.Text = ""
+            worm.subtext.Text = "FEVER!"
+            worm.subtext.TextColor3 = Color3.new(1, 0.6, 0):Lerp(Color3.new(1, 0.3, 0), rythm.rawBeat % 1)
+            worm.subtext.TextXAlignment = Enum.TextXAlignment.Center
+            worm.subtext.TextSize = 64
+            worm.head.ImageColor3 = rythm.fever >= 2 and Color3.new(1, 0.8, 0.1):Lerp(Color3.new(1, 0.4, 0.1), rythm.rawBeat % 1) or Color3.new(1, 0.25, 0.1):Lerp(Color3.new(1, 0.1, 0.1), rythm.rawBeat % 1)
+            worm.top.ImageColor3 = worm.head.ImageColor3
+            worm.back.ImageColor3 = Color3.new(1, 1, 1)
             worm.frame.Position = UDim2.new(0, lerp(worm.frame.Position.X.Offset, -250, 0.01), 0.4, 0)
             worm.scale.Scale = 1 + (1 - (rythm.rawBeat % 1)) * 0.25
             for x, segment in pairs(worm.segments) do
@@ -330,6 +396,7 @@ RunService.RenderStepped:Connect(function(delta)
             for x, segment in pairs(worm.segmentsBack) do
                 segment.BackgroundColor3 = Color3.new(1, 1, 1)
             end
+            worm.head.Rotation = 0
         end
     end
 end)
