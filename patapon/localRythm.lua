@@ -209,7 +209,7 @@ instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(0, 5, 1, -8
 instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(0, 5, 0, 8); Size = ud2(0, 3, 1, -16); Parent = guiBeatFrameOutlines; })
 instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(1, -8, 0, 8); Size = ud2(0, 3, 1, -16); Parent = guiBeatFrameOutlines; })
 
-RunService.RenderStepped:Connect(function(delta)
+RunService.Stepped:Connect(function(_, delta)
     frame = frame + 1
     rythm.time = rythm.time + delta
     rythm.rawBeat = rythm.time * (rythm.bpm / 60)
