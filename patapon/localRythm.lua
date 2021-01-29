@@ -19,7 +19,10 @@ local palette = {
     yellow = color(0.2, 1, 0.2);
     green = color(0.2, 1, 0.2);
     dark = color(0.2, 0.2, 0.2);
-
+    feverDark = color(1, 0.1, 0.1);
+    feverBright = color(1, 0.25, 0.1);
+    feverDarkAccent = color(1, 0.4, 0.1);
+    feverBrightAccent = color(1, 0.8, 0.1);
 }
 
 local function instance(name, properties)
@@ -396,10 +399,10 @@ RunService.RenderStepped:Connect(function(delta)
         else
             worm.text.Text = ""
             worm.subtext.Text = "FEVER!"
-            worm.subtext.TextColor3 = color(1, 0.6, 0):Lerp(color(1, 0.3, 0), rythm.rawBeat % 1)
+            worm.subtext.TextColor3 = palette.feverBrightAccent:Lerp(palette.feverDarkAccent, rythm.rawBeat % 1)
             worm.subtext.TextXAlignment = Enum.TextXAlignment.Center
             worm.subtext.TextSize = 64
-            worm.head.ImageColor3 = rythm.fever >= 2 and color(1, 0.8, 0.1):Lerp(color(1, 0.4, 0.1), rythm.rawBeat % 1) or color(1, 0.25, 0.1):Lerp(color(1, 0.1, 0.1), rythm.rawBeat % 1)
+            worm.head.ImageColor3 = rythm.fever >= 2 and palette.feverBrightAccent:Lerp(palette.feverDarkAccent, rythm.rawBeat % 1) or palette.feverBright:Lerp(palette.feverDark, rythm.rawBeat % 1)
             worm.top.ImageColor3 = worm.head.ImageColor3
             worm.back.ImageColor3 = palette.white
             worm.frame.Position = ud2(0, lerp(worm.frame.Position.X.Offset, -250, 0.01), 0.4, 0)
@@ -409,7 +412,7 @@ RunService.RenderStepped:Connect(function(delta)
                 local y2 = 0
                 local y = lerp(y1, y2, exp(x / worm.length, 1000))
                 segment.Position = ud2(0, x, 0, y)
-                segment.BackgroundColor3 = rythm.fever - 1 >= (x / worm.length) and color(1, 0.8, 0.1):Lerp(color(1, 0.4, 0.1), rythm.rawBeat % 1) or color(1, 0.25, 0.1):Lerp(color(1, 0.1, 0.1), rythm.rawBeat % 1)
+                segment.BackgroundColor3 = rythm.fever - 1 >= (x / worm.length) and palette.feverBrightAccent:Lerp(palette.feverDarkAccent, rythm.rawBeat % 1) or palette.feverBright:Lerp(palette.feverDark, rythm.rawBeat % 1)
             end
             for x, segment in pairs(worm.segmentsBack) do
                 segment.BackgroundColor3 = palette.white
