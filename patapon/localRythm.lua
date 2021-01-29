@@ -11,6 +11,16 @@ local deg = math.deg
 local atan = math.atan
 local color = Color3.new
 local ud2 = UDim2.new
+local palette = {
+    white = color(1, 1, 1);
+    veryRed = color(1, 0, 0);
+    comboWorm = color(0.1, 0.1, 0.1);
+    cyan = color(0.2, 1, 1);
+    yellow = color(0.2, 1, 0.2);
+    green = color(0.2, 1, 0.2);
+    dark = color(0.2, 0.2, 0.2);
+
+}
 
 local function instance(name, properties)
     local new = Instance.new(name)
@@ -96,7 +106,7 @@ worm.text = instance("TextLabel", {
     ZIndex = 11;
     Text = "0";
     TextSize = 64;
-    TextColor3 = color(1, 0, 0);
+    TextColor3 = palette.veryRed;
     TextStrokeTransparency = 0;
     BackgroundTransparency = 1;
     TextXAlignment = Enum.TextXAlignment.Right;
@@ -111,7 +121,7 @@ worm.subtext = instance("TextLabel", {
     ZIndex = 11;
     Text = "COMBO!";
     TextSize = 24;
-    TextColor3 = color(1, 1, 1);
+    TextColor3 = palette.white;
     TextStrokeTransparency = 0;
     BackgroundTransparency = 1;
     TextXAlignment = Enum.TextXAlignment.Left;
@@ -126,7 +136,7 @@ for x = 0, worm.length - 1 do
     local new = instance("Frame", {
         ZIndex = 10;
         BorderSizePixel = 0;
-        BackgroundColor3 = color(0.1, 0.1, 0.1);
+        BackgroundColor3 = palette.comboWorm;
         Position = ud2(0, x, 0, 0);
         Size = ud2(0, 1, 1, 0);
         Parent = worm.frame;
@@ -134,7 +144,7 @@ for x = 0, worm.length - 1 do
     local newBack = instance("Frame", {
         ZIndex = 8;
         BorderSizePixel = 0;
-        BackgroundColor3 = color(0.1, 0.1, 0.1);
+        BackgroundColor3 = palette.comboWorm;
         Position = ud2(0, 0, 0, -5);
         Size = ud2(1, 0, 1, 10);
         Parent = new;
@@ -260,7 +270,7 @@ RunService.RenderStepped:Connect(function(delta)
     if rythm.fever == 0 then
         batch(guiBeatFrame, {
             BackgroundTransparency = rythm.rawBeat % 1;
-            BackgroundColor3 = color(1, 1, 1);
+            BackgroundColor3 = palette.white;
         })
         batch(guiBeatFrameOutlines, {
             BackgroundTransparency = 1;
@@ -270,28 +280,28 @@ RunService.RenderStepped:Connect(function(delta)
             if rythm.fever < 1 then
                 batch(guiBeatFrame, {
                     BackgroundTransparency = rythm.rawBeat % 1;
-                    BackgroundColor3 = color(1, 1, 1);
+                    BackgroundColor3 = palette.white;
                 })
             else
                 if frame % 8 >= 6 then
                     batch(guiBeatFrame, {
                         BackgroundTransparency = rythm.rawBeat % 1;
-                        BackgroundColor3 = color(1, 1, 1)
+                        BackgroundColor3 = palette.white;
                     })
                 elseif frame % 8 >= 4 then
                     batch(guiBeatFrame, {
                         BackgroundTransparency = rythm.rawBeat % 1;
-                        BackgroundColor3 = color(0.2, 1, 1)
+                        BackgroundColor3 = palette.cyan;
                     })
                 elseif frame % 6 >= 2 then
                     batch(guiBeatFrame, {
                         BackgroundTransparency = rythm.rawBeat % 1;
-                        BackgroundColor3 = color(1, 1, 0.2)
+                        BackgroundColor3 = palette.yellow;
                     })
                 else
                     batch(guiBeatFrame, {
                         BackgroundTransparency = rythm.rawBeat % 1;
-                        BackgroundColor3 = color(0.2, 1, 0.2);
+                        BackgroundColor3 = palette.green;
                     })
                 end
             end
@@ -303,18 +313,18 @@ RunService.RenderStepped:Connect(function(delta)
                 if frame % 4 < 2 then
                     batch(guiBeatFrameOutlines, {
                         BackgroundTransparency = rythm.rawBeat % 1;
-                        BackgroundColor3 = color(0.2, 0.2, 0.2);
+                        BackgroundColor3 = palette.dark;
                     })
                 else
                     batch(guiBeatFrameOutlines, {
                         BackgroundTransparency = rythm.rawBeat % 1;
-                        BackgroundColor3 = color(1, 1, 1);
+                        BackgroundColor3 = palette.white;
                     })
                 end
             else
                 batch(guiBeatFrameOutlines, {
                     BackgroundTransparency = rythm.rawBeat % 1;
-                    BackgroundColor3 = color(0.2, 0.2, 0.2);
+                    BackgroundColor3 = palette.dark;
                 })
             end
             batch(guiBeatFrame, {
@@ -337,10 +347,10 @@ RunService.RenderStepped:Connect(function(delta)
         if rythm.fever < 0.5 then
             worm.text.Text = rythm.combo
             worm.subtext.Text = "COMBO!"
-            worm.subtext.TextColor3 = color(1, 1, 1)
+            worm.subtext.TextColor3 = palette.white
             worm.subtext.TextXAlignment = Enum.TextXAlignment.Left
             worm.subtext.TextSize = 24
-            worm.head.ImageColor3 = color(0.1, 0.1, 0.1)
+            worm.head.ImageColor3 = palette.comboWorm
             worm.top.ImageColor3 = worm.head.ImageColor3
             worm.back.ImageColor3 = worm.head.ImageColor3
             worm.frame.Position = ud2(0, lerp(worm.frame.Position.X.Offset, -worm.length + exp(rythm.fever, 0.01) * 250, 0.1), 0.4, 0)
@@ -350,19 +360,19 @@ RunService.RenderStepped:Connect(function(delta)
                 local y2 = 0
                 local y = lerp(y1, y2, exp(x / worm.length, 1000))
                 segment.Position = ud2(0, x, 0, y)
-                segment.BackgroundColor3 = color(0.1, 0.1, 0.1)
+                segment.BackgroundColor3 = palette.comboWorm
             end
             for x, segment in pairs(worm.segmentsBack) do
-                segment.BackgroundColor3 = color(0.1, 0.1, 0.1)
+                segment.BackgroundColor3 = palette.comboWorm
             end
             worm.head.Rotation = 0
         elseif rythm.fever < 1 then
             worm.text.Text = rythm.combo
             worm.subtext.Text = "COMBO!"
-            worm.subtext.TextColor3 = color(1, 1, 1)
+            worm.subtext.TextColor3 = palette.white
             worm.subtext.TextXAlignment = Enum.TextXAlignment.Left
             worm.subtext.TextSize = 24
-            worm.head.ImageColor3 = color(0.1, 0.1, 0.1)
+            worm.head.ImageColor3 = palette.comboWorm
             worm.top.ImageColor3 = worm.head.ImageColor3
             worm.back.ImageColor3 = worm.head.ImageColor3
             worm.frame.Position = ud2(0, lerp(worm.frame.Position.X.Offset, -worm.length + exp(rythm.fever, 0.01) * 300, 0.1), 0.4, 0)
@@ -372,10 +382,10 @@ RunService.RenderStepped:Connect(function(delta)
                 local y2 = sin((rythm.rawBeat + x / worm.length) * tau) * 40
                 local y = lerp(y1, y2, exp(x / worm.length, 400))
                 segment.Position = ud2(0, x, 0, y)
-                segment.BackgroundColor3 = color(0.1, 0.1, 0.1)
+                segment.BackgroundColor3 = palette.comboWorm
             end
             for x, segment in pairs(worm.segmentsBack) do
-                segment.BackgroundColor3 = color(0.1, 0.1, 0.1)
+                segment.BackgroundColor3 = palette.comboWorm
             end
             local gradient = grad(1, function(x)
                 local y = sin((rythm.rawBeat + x / worm.length) * tau) * 40
@@ -391,7 +401,7 @@ RunService.RenderStepped:Connect(function(delta)
             worm.subtext.TextSize = 64
             worm.head.ImageColor3 = rythm.fever >= 2 and color(1, 0.8, 0.1):Lerp(color(1, 0.4, 0.1), rythm.rawBeat % 1) or color(1, 0.25, 0.1):Lerp(color(1, 0.1, 0.1), rythm.rawBeat % 1)
             worm.top.ImageColor3 = worm.head.ImageColor3
-            worm.back.ImageColor3 = color(1, 1, 1)
+            worm.back.ImageColor3 = palette.white
             worm.frame.Position = ud2(0, lerp(worm.frame.Position.X.Offset, -250, 0.01), 0.4, 0)
             worm.scale.Scale = 1 + (1 - (rythm.rawBeat % 1)) * 0.25
             for x, segment in pairs(worm.segments) do
@@ -402,7 +412,7 @@ RunService.RenderStepped:Connect(function(delta)
                 segment.BackgroundColor3 = rythm.fever - 1 >= (x / worm.length) and color(1, 0.8, 0.1):Lerp(color(1, 0.4, 0.1), rythm.rawBeat % 1) or color(1, 0.25, 0.1):Lerp(color(1, 0.1, 0.1), rythm.rawBeat % 1)
             end
             for x, segment in pairs(worm.segmentsBack) do
-                segment.BackgroundColor3 = color(1, 1, 1)
+                segment.BackgroundColor3 = palette.white
             end
             worm.head.Rotation = 0
         end
