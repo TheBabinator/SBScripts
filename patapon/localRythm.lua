@@ -3,6 +3,12 @@ local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local tau = 2 * math.pi
+local sin = math.sin
+local abs = math.abs
+local floor = math.floor
+local round = math.round
+local deg = math.deg
+local atan = math.atan
 
 local function instance(name, properties)
     local new = Instance.new(name)
@@ -192,8 +198,8 @@ RunService.RenderStepped:Connect(function(delta)
     frame = frame + 1
     rythm.time = rythm.time + delta
     rythm.rawBeat = rythm.time * (rythm.bpm / 60)
-    rythm.beat = math.floor(rythm.rawBeat)
-    rythm.nearestBeat = math.round(rythm.rawBeat)
+    rythm.beat = floor(rythm.rawBeat)
+    rythm.nearestBeat = round(rythm.rawBeat)
 
     if rythm.lastBeat ~= rythm.beat then
         if rythm.fever == 0 then
@@ -245,7 +251,7 @@ RunService.RenderStepped:Connect(function(delta)
         rythm.lastNearestBeat = rythm.nearestBeat
     end
 
-    if math.abs(rythm.time - rythm.sound.TimePosition) > 0.1 then
+    if abs(rythm.time - rythm.sound.TimePosition) > 0.1 then
         rythm.sound.TimePosition = rythm.time
     end
 
@@ -338,7 +344,7 @@ RunService.RenderStepped:Connect(function(delta)
             worm.frame.Position = UDim2.new(0, lerp(worm.frame.Position.X.Offset, -worm.length + exp(rythm.fever, 0.01) * 250, 0.1), 0.4, 0)
             worm.scale.Scale = 1
             for x, segment in pairs(worm.segments) do
-                local y1 = -lerp(0, math.sin(x / worm.length * 6 * tau) * 5 + 5, math.abs(math.sin(rythm.rawBeat * 0.5 * tau)))
+                local y1 = -lerp(0, sin(x / worm.length * 6 * tau) * 5 + 5, abs(sin(rythm.rawBeat * 0.5 * tau)))
                 local y2 = 0
                 local y = lerp(y1, y2, exp(x / worm.length, 1000))
                 segment.Position = UDim2.new(0, x, 0, y)
@@ -360,8 +366,8 @@ RunService.RenderStepped:Connect(function(delta)
             worm.frame.Position = UDim2.new(0, lerp(worm.frame.Position.X.Offset, -worm.length + exp(rythm.fever, 0.01) * 300, 0.1), 0.4, 0)
             worm.scale.Scale = 1
             for x, segment in pairs(worm.segments) do
-                local y1 = -lerp(0, math.sin(x / worm.length * 6 * tau) * 5 + 5, math.abs(math.sin(rythm.rawBeat * 0.5 * tau)))
-                local y2 = math.sin((rythm.rawBeat + x / worm.length) * tau) * 40
+                local y1 = -lerp(0, sin(x / worm.length * 6 * tau) * 5 + 5, abs(sin(rythm.rawBeat * 0.5 * tau)))
+                local y2 = sin((rythm.rawBeat + x / worm.length) * tau) * 40
                 local y = lerp(y1, y2, exp(x / worm.length, 400))
                 segment.Position = UDim2.new(0, x, 0, y)
                 segment.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
@@ -370,10 +376,10 @@ RunService.RenderStepped:Connect(function(delta)
                 segment.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
             end
             local gradient = grad(1, function(x)
-                local y = math.sin((rythm.rawBeat + x / worm.length) * tau) * 40
+                local y = sin((rythm.rawBeat + x / worm.length) * tau) * 40
                 return y
 			end)
-			local angle = math.deg(math.atan(gradient))
+			local angle = deg(atan(gradient))
             worm.head.Rotation = angle
         else
             worm.text.Text = ""
@@ -387,7 +393,7 @@ RunService.RenderStepped:Connect(function(delta)
             worm.frame.Position = UDim2.new(0, lerp(worm.frame.Position.X.Offset, -250, 0.01), 0.4, 0)
             worm.scale.Scale = 1 + (1 - (rythm.rawBeat % 1)) * 0.25
             for x, segment in pairs(worm.segments) do
-                local y1 = math.sin((x / worm.length - rythm.rawBeat) * tau) * 20
+                local y1 = sin((x / worm.length - rythm.rawBeat) * tau) * 20
                 local y2 = 0
                 local y = lerp(y1, y2, exp(x / worm.length, 1000))
                 segment.Position = UDim2.new(0, x, 0, y)
