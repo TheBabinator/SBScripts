@@ -209,7 +209,7 @@ instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(0, 5, 1, -8
 instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(0, 5, 0, 8); Size = ud2(0, 3, 1, -16); Parent = guiBeatFrameOutlines; })
 instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(1, -8, 0, 8); Size = ud2(0, 3, 1, -16); Parent = guiBeatFrameOutlines; })
 
-RunService.Stepped:Connect(function(_, delta)
+RunService.Stepped:Connect(function(delta)
     frame = frame + 1
     rythm.time = rythm.time + delta
     rythm.rawBeat = rythm.time * (rythm.bpm / 60)
@@ -351,7 +351,7 @@ RunService.Stepped:Connect(function(_, delta)
             worm.text.Text = rythm.combo
             worm.subtext.Text = "COMBO!"
             worm.subtext.TextColor3 = palette.white
-            worm.subtext.TextXAlignment = Enum.TextXAlignment.Left
+            worm.subtext.TextXAlignment = "Left"
             worm.subtext.TextSize = 24
             worm.head.ImageColor3 = palette.comboWorm
             worm.top.ImageColor3 = worm.head.ImageColor3
@@ -373,7 +373,7 @@ RunService.Stepped:Connect(function(_, delta)
             worm.text.Text = rythm.combo
             worm.subtext.Text = "COMBO!"
             worm.subtext.TextColor3 = palette.white
-            worm.subtext.TextXAlignment = Enum.TextXAlignment.Left
+            worm.subtext.TextXAlignment = "Left"
             worm.subtext.TextSize = 24
             worm.head.ImageColor3 = palette.comboWorm
             worm.top.ImageColor3 = worm.head.ImageColor3
@@ -400,7 +400,7 @@ RunService.Stepped:Connect(function(_, delta)
             worm.text.Text = ""
             worm.subtext.Text = "FEVER!"
             worm.subtext.TextColor3 = palette.feverBrightAccent:Lerp(palette.feverDarkAccent, rythm.rawBeat % 1)
-            worm.subtext.TextXAlignment = Enum.TextXAlignment.Center
+            worm.subtext.TextXAlignment = "Center"
             worm.subtext.TextSize = 64
             worm.head.ImageColor3 = rythm.fever >= 2 and palette.feverBrightAccent:Lerp(palette.feverDarkAccent, rythm.rawBeat % 1) or palette.feverBright:Lerp(palette.feverDark, rythm.rawBeat % 1)
             worm.top.ImageColor3 = worm.head.ImageColor3
