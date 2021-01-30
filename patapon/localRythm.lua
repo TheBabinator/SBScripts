@@ -64,7 +64,6 @@ end
 
 local GUI = instance("ScreenGui", { DisplayOrder = 5; ResetOnSpawn = true; IgnoreGuiInset = true; Name = "RythmGui"; Parent = player:FindFirstChildOfClass("PlayerGui"); })
 
-local frame = 0
 local rythm = {
     sound = instance("Sound", {
         SoundId = "rbxassetid://663704873";
@@ -209,7 +208,9 @@ instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(0, 5, 1, -8
 instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(0, 5, 0, 8); Size = ud2(0, 3, 1, -16); Parent = guiBeatFrameOutlines; })
 instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(1, -8, 0, 8); Size = ud2(0, 3, 1, -16); Parent = guiBeatFrameOutlines; })
 
-RunService.RenderStepped:Connect(function(delta)
+local frame = 0
+local delta = 0
+while true do
     frame = frame + 1
     rythm.time = rythm.time + delta
     rythm.rawBeat = rythm.time * (rythm.bpm / 60)
@@ -420,6 +421,7 @@ RunService.RenderStepped:Connect(function(delta)
             worm.head.Rotation = 0
         end
     end
-end)
+    _, delta = RunService.Stepped:Wait()
+end
 
 GUI.Parent = player.PlayerGui
