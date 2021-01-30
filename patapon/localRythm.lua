@@ -9,37 +9,43 @@ local player = Players.LocalPlayer
 local tau = 2 * math.pi
 local function sin(x)
     if tick() - time > 0.01 then
-        RunService.RenderStepped:Wait()
+        delta = RunService.RenderStepped:Wait()
+        time = tick()
     end
     return math.sin(x)
 end
 local function abs(x)
     if tick() - time > 0.01 then
-        RunService.RenderStepped:Wait()
+        delta = RunService.RenderStepped:Wait()
+        time = tick()
     end
     return math.abs(x)
 end
 local function floor(x)
     if tick() - time > 0.01 then
-        RunService.RenderStepped:Wait()
+        delta = RunService.RenderStepped:Wait()
+        time = tick()
     end
     return math.floor(x)
 end
 local function round(x)
     if tick() - time > 0.01 then
-        RunService.RenderStepped:Wait()
+        delta = RunService.RenderStepped:Wait()
+        time = tick()
     end
     return math.round(x)
 end
 local function deg(x)
     if tick() - time > 0.01 then
-        RunService.RenderStepped:Wait()
+        delta = RunService.RenderStepped:Wait()
+        time = tick()
     end
     return math.deg(x)
 end
 local function atan(x)
     if tick() - time > 0.01 then
-        RunService.RenderStepped:Wait()
+        delta = RunService.RenderStepped:Wait()
+        time = tick()
     end
     return math.atan(x)
 end
