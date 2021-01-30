@@ -421,7 +421,7 @@ while true do
             worm.head.Rotation = 0
         end
     end
-    _, delta = RunService.Stepped:Wait()
+    delta = wait() -- RunService.RenderStepped:Wait()
 end
 
 GUI.Parent = player.PlayerGui
