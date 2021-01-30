@@ -1,14 +1,48 @@
+local frame = 0
+local time = 0
+local delta = 0
+
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local tau = 2 * math.pi
-local sin = math.sin
-local abs = math.abs
-local floor = math.floor
-local round = math.round
-local deg = math.deg
-local atan = math.atan
+local function sin(x)
+    if tick() - time > 0.01 then
+        RunService.RenderStepped:Wait()
+    end
+    return math.sin(x)
+end
+local function abs(x)
+    if tick() - time > 0.01 then
+        RunService.RenderStepped:Wait()
+    end
+    return math.abs(x)
+end
+local function floor(x)
+    if tick() - time > 0.01 then
+        RunService.RenderStepped:Wait()
+    end
+    return math.floor(x)
+end
+local function round(x)
+    if tick() - time > 0.01 then
+        RunService.RenderStepped:Wait()
+    end
+    return math.round(x)
+end
+local function deg(x)
+    if tick() - time > 0.01 then
+        RunService.RenderStepped:Wait()
+    end
+    return math.deg(x)
+end
+local function atan(x)
+    if tick() - time > 0.01 then
+        RunService.RenderStepped:Wait()
+    end
+    return math.atan(x)
+end
 local color = Color3.new
 local ud2 = UDim2.new
 local palette = {
@@ -208,10 +242,9 @@ instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(0, 5, 1, -8
 instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(0, 5, 0, 8); Size = ud2(0, 3, 1, -16); Parent = guiBeatFrameOutlines; })
 instance("Frame", { ZIndex = 30; BorderSizePixel = 0; Position = ud2(1, -8, 0, 8); Size = ud2(0, 3, 1, -16); Parent = guiBeatFrameOutlines; })
 
-local frame = 0
-local delta = 0
 while true do
     frame = frame + 1
+    time = tick()
     rythm.time = rythm.time + delta
     rythm.rawBeat = rythm.time * (rythm.bpm / 60)
     rythm.beat = floor(rythm.rawBeat)
@@ -421,7 +454,7 @@ while true do
             worm.head.Rotation = 0
         end
     end
-    delta = wait() -- RunService.RenderStepped:Wait()
+    delta = RunService.RenderStepped:Wait()
 end
 
 GUI.Parent = player.PlayerGui
