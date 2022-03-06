@@ -23,7 +23,7 @@ for x = 0, width - 1 do
 		pixel.Parent = script
 		screen[i] = pixel
 	end
-  wait(0.1)
+  wait(0.5)
 end
 
 while true do
