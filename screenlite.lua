@@ -4,7 +4,7 @@ local screenRoot = CFrame.new(0, 20, -40)
 local screen = {}
 local width = 80
 local height = 45
-local rps = 4
+local rps = 2
 local resolution = 0.2
 
 for x = 0, width - 1 do
@@ -26,6 +26,7 @@ for x = 0, width - 1 do
 end
 
 while true do
+	local before = tick()
 	xpcall(function()
 		local query = string.format("http://86.25.73.27/?w=%s&h=%s", width, height)
 		local data = HttpService:JSONDecode(HttpService:GetAsync(query))
@@ -37,5 +38,8 @@ while true do
 		warn("error")
 		warn(e)
 	end)
-	wait(1 / rps)
+	local after = tick()
+	local delta = after - before
+	print("took " .. math.floor(delta * 1000) .. "ms")
+	wait(1 / rps - delta)
 end
