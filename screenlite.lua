@@ -2,9 +2,9 @@ local HttpService = game:GetService("HttpService")
 
 local screenRoot = CFrame.new(0, 20, -40)
 local screen = {}
-local width = 480
-local height = 270
-local rps = 2
+local width = 80
+local height = 45
+local rps = 4
 local resolution = 0.2
 
 for x = 0, width - 1 do
@@ -23,7 +23,6 @@ for x = 0, width - 1 do
 		pixel.Parent = script
 		screen[i] = pixel
 	end
-  wait(0.5)
 end
 
 while true do
