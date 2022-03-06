@@ -27,15 +27,12 @@ end
 
 while true do
 	xpcall(function()
-		local before = tick()
 		local query = string.format("http://86.25.73.27/?w=%s&h=%s", width, height)
 		local data = HttpService:JSONDecode(HttpService:GetAsync(query))
 		for i, v in pairs(data.pixels) do
 			local pixel = screen[i - 1]			
 			pixel.Color = Color3.fromRGB(v[1], v[2], v[3])
 		end
-		local after = tick()
-		--print("took", after - before)
 	end, function(e)
 		warn("error")
 		warn(e)
